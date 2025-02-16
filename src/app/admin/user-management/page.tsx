@@ -53,12 +53,13 @@ export default function UserManagementPage() {
                   <TabsTrigger value="admins">Admins</TabsTrigger>
                 </TabsList>
                 
-                {/* Only show Add Admin button in admins tab */}
-                <div className="admin-actions hidden data-[state=active]:block" data-state="inactive">
-                  <Button>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Admin
-                  </Button>
+                <div className="admin-actions">
+                  <TabsContent value="admins" className="m-0">
+                    <Button>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Admin
+                    </Button>
+                  </TabsContent>
                 </div>
               </div>
 

@@ -1,99 +1,213 @@
-//Dashboard Defautl Page for Student
-"use client";
+'use client'
 
+import React, { useEffect, useState } from 'react';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebarAdmin } from "@/app/components/app-sidebar-admin";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bell } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
-import { Separator } from "@radix-ui/react-separator";
+import { Separator } from "@/components/ui/separator";
+import DonutChart from "@/components/donutchart";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Page() {
-    // Set initial moods state
-    const [moods, ] = useState([
-        { icon: "😲", percentage: "0.00", label: "Surprised", bgClass: "bg-gray-100/50" },
-        { icon: "😊", percentage: "0.00", label: "Happy", bgClass: "bg-gray-100/50" },
-        { icon: "😐", percentage: "0.00", label: "Neutral", bgClass: "bg-gray-100/50" },
-        { icon: "😢", percentage: "0.00", label: "Sad", bgClass: "bg-gray-100/50" },
-        { icon: "🤢", percentage: "0.00", label: "Disgusted", bgClass: "bg-gray-100/50" },
-        { icon: "😡", percentage: "0.00", label: "Angry", bgClass: "bg-gray-100/50" },
-        { icon: "😨", percentage: "0.00", label: "Fearful", bgClass: "bg-gray-100/50" }
-    ]);
+  // Previous state definitions remain the same until topClasses
+  const [moods] = useState([
+    { icon: "😲", percentage: "25.00", label: "Surprised", bgClass: "bg-gray-100/50", color: "text-orange-500" },
+    { icon: "😊", percentage: "15.00", label: "Happy", bgClass: "bg-gray-100/50", color: "text-green-500" },
+    { icon: "😐", percentage: "20.00", label: "Neutral", bgClass: "bg-gray-100/50", color: "text-blue-500" },
+    { icon: "😢", percentage: "10.00", label: "Sad", bgClass: "bg-gray-100/50", color: "text-purple-500" },
+    { icon: "🤢", percentage: "8.00", label: "Disgusted", bgClass: "bg-gray-100/50", color: "text-zinc-700" },
+    { icon: "😡", percentage: "12.00", label: "Angry", bgClass: "bg-gray-100/50", color: "text-red-500" },
+    { icon: "😨", percentage: "10.00", label: "Fearful", bgClass: "bg-gray-100/50", color: "text-slate-500" }
+  ]);
 
-  const [, setCurrentTime] = useState(new Date());  
+  const [notifications] = useState([
+    { id: 1, name: "John Smith", time: "2 minutes ago", class: "Mathematics 101", role: "student" },
+    { id: 2, name: "Sarah Johnson", time: "5 minutes ago", class: "Physics 202", role: "teacher" },
+    { id: 3, name: "Mike Williams", time: "10 minutes ago", class: "Chemistry 301", role: "admin" },
+  ]);
+
+  const [topClasses] = useState([
+    { 
+      id: 1, 
+      name: "Mathematics 101",
+      students: 45,
+      emotions: {
+        happy: 35,
+        surprised: 30,
+        neutral: 27
+      }
+    },
+    { 
+      id: 2, 
+      name: "Physics 202",
+      students: 38,
+      emotions: {
+        happy: 32,
+        surprised: 28,
+        neutral: 28
+      }
+    },
+    { 
+      id: 3, 
+      name: "Chemistry 301",
+      students: 42,
+      emotions: {
+        happy: 30,
+        surprised: 25,
+        neutral: 30
+      }
+    },
+    { 
+      id: 4, 
+      name: "Biology 201",
+      students: 36,
+      emotions: {
+        happy: 28,
+        surprised: 27,
+        neutral: 28
+      }
+    },
+    { 
+      id: 5, 
+      name: "Computer Science 101",
+      students: 50,
+      emotions: {
+        happy: 25,
+        surprised: 30,
+        neutral: 27
+      }
+    },
+  ]);
+
+  const [, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // Update the time every second
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-
-    // Clean up the interval on component unmount
     return () => clearInterval(interval);
   }, []);
+
+  // Rest of the component remains the same until the topClasses mapping
   return (    
     <SidebarProvider>
       <AppSidebarAdmin />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2">
+        {/* Header section remains the same */}
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Dashboard
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>                
               </BreadcrumbList>              
             </Breadcrumb>            
           </div>          
-            {/* Right Side: Icons and Profile Picture */}
-          <div className="flex items-center space-x-4">
-             {/* Notification Bell with Counter */}
-              <div className="relative">
-                {/* Bell Icon */}
-                <button className="p-2 rounded-full hover:bg-gray-100">
-                  <Bell className="w-6 h-6 text-gray-600" />
-                </button>
-              </div>
+          <div className="flex items-center space-x-4 px-4">
+            <div className="relative">
+              <button className="p-2 rounded-full hover:bg-gray-100 relative">
+                <Bell className="w-6 h-6 text-gray-600" />
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">3</Badge>
+              </button>
+            </div>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">            
-            <div className="w-full">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
-                {moods.map((mood, index) => (
-                  <Card key={index} className="shadow-lg">
-                    <CardContent className={`flex flex-col items-center justify-center p-4 rounded-[7px] ${mood.bgClass}`}>                    
-                      <p className="text-lg font-semibold text-gray-800">{mood.icon} {mood.label}</p>
-                      <p className="text-lg font-semibold text-gray-800">{mood.percentage} %</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <Card className="col-span-1 shadow-lg">
-                  <CardContent className="flex items-center justify-center p-2 min-h-[400px] sm:min-h-[450px] lg:min-h-[570px]">                      
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Notifications for new Register Account</h2>
-                    <div className="overflow-y-auto max-h-[350px] sm:max-h-[400px] lg:max-h-[450px]">
-                      <div className="space-y-16 sm:space-y-24 lg:space-y-32 px-2 sm:px-4">                        
-                      </div>
+
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-4">            
+          <div className="w-full">
+            {/* Moods section remains the same */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
+              {moods.map((mood, index) => (
+                <Card key={index} className="shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className={`flex flex-col items-center justify-center p-4 rounded-lg ${mood.bgClass}`}>                    
+                    <p className="text-lg font-semibold text-gray-800 mb-2">{mood.icon} {mood.label}</p>
+                    <div className="flex justify-center items-center py-2">
+                      <DonutChart
+                        value={parseFloat(mood.percentage)} 
+                        color={mood.color}
+                        size={100}
+                        strokeWidth={10}
+                      />
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="cols-span-3 shadow-lg">
-                  <CardContent className="flex items-center justify-center p-2 min-h-[400px] sm:min-h-[450px] lg:min-h-[570px]">
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Top 10 Classes with Positive Expression Classes</h2>
-                    <div className="overflow-y-auto max-h-[350px] sm:max-h-[400px] lg:max-h-[450px]">
-                      <div className="space-y-16 sm:space-y-24 lg:space-y-32 px-2 sm:px-4">                        
+              ))}
+            </div>               
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                 {/* For Notifications Card */}
+                 <Card className="col-span-1 shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">                      
+                    <h2 className="text-xl font-semibold mb-4">New Account Notifications</h2>
+                    <ScrollArea className="h-[500px] pr-4">
+                      <div className="space-y-4">
+                        {notifications.map((notification) => (
+                          <Card key={notification.id}>
+                            <CardContent className="p-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <p className="font-medium">{notification.name}</p>
+                                    <Badge variant="outline" className="capitalize">
+                                      {notification.role}
+                                    </Badge>
+                                  </div>
+                                  <p className="text-sm text-gray-600">Registered for {notification.class}</p>
+                                </div>
+                                <span className="text-sm text-gray-500 ml-4">{notification.time}</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
                       </div>
-                    </div>
+                    </ScrollArea>
+                  </CardContent>
+                </Card>
+
+                {/* For Top Classes Card */}
+                <Card className="col-span-1 shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <h2 className="text-xl font-semibold mb-4">Top Classes with Positive Expressions</h2>
+                    <ScrollArea className="h-[500px] pr-4">
+                      <div className="space-y-4">
+                        {topClasses.map((classItem) => (
+                          <Card key={classItem.id}>
+                            <CardContent className="p-4 bg-gray-50">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <p className="font-medium">{classItem.name}</p>
+                                  <p className="text-sm text-gray-600">{classItem.students} students enrolled</p>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-xl">😊</span>
+                                    <span>{classItem.emotions.happy}%</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-xl">😲</span>
+                                    <span>{classItem.emotions.surprised}%</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-xl">😐</span>
+                                    <span>{classItem.emotions.neutral}%</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </ScrollArea>
                   </CardContent>
                 </Card>                                
-              </div>
-            </div>          
+            </div>
+          </div>          
         </div>
       </SidebarInset>
     </SidebarProvider>    
