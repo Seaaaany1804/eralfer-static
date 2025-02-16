@@ -55,7 +55,7 @@ export default function Page() {
              {/* Notification Bell with Counter */}
               <div className="relative">
                 {/* Bell Icon */}
-                <button className="p-2 rounded-full hover:bg-gray-100">
+                <button aria-label='botton' className="p-2 rounded-full hover:bg-gray-100">
                   <Bell className="w-6 h-6 text-gray-600" />
                 </button>
               </div>

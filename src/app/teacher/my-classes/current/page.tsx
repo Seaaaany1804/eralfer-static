@@ -1,5 +1,4 @@
 "use client";
-
 import { AppSidebarTeacher } from "@/app//components/app-sidebar-teacher"
 import {
   Breadcrumb,
