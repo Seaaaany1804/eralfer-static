@@ -73,8 +73,8 @@ export default function RegisterForm() {
 
         <Button className="w-full">Register</Button>
         <h1 className="text-center text-sm font-light">
-          Already have an account?
-          <span className="underline"> Login Here</span>
+          Already have an account?{" "}
+          <a href="/login" className="underline">Login Here</a>
         </h1>
       </CardContent>
     </Card>
