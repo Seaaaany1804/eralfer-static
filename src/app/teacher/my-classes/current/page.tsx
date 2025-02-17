@@ -174,6 +174,7 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
                         >
                           <span className="text-sm">{student.name}</span>
                           <button
+                            aria-label='bell'
                             type="button"
                             onClick={() => handleRemoveInitiate(student)}
                             className="text-muted-foreground hover:text-foreground"
@@ -425,6 +426,7 @@ export default function Page() {
                         >
                           <span className="text-sm">{student.name}</span>
                           <button
+                            aria-label='bell'
                             type="button"
                             onClick={() => handleRemoveStudent(student.id)}
                             className="text-muted-foreground hover:text-foreground"
