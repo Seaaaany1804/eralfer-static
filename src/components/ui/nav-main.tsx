@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 import {
   Collapsible,
@@ -32,9 +33,20 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const pathname = usePathname()
+  
+  const getMenuLabel = () => {
+    if (pathname?.includes("/teacher")) {
+      return "Teacher Menu"
+    } else if (pathname?.includes("/admin")) {
+      return "Admin Menu"
+    }
+    return "Student Menu"
+  }
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Student Menu</SidebarGroupLabel>
+      <SidebarGroupLabel>{getMenuLabel()}</SidebarGroupLabel>
       <SidebarMenu>
       {items.map((item) =>
           item.items?.length ? ( // Check if there are sub-items

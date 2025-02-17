@@ -58,41 +58,46 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <CardContent className="p-0">
-        <div className="relative">
-          <img 
-            src={subject.image}
-            alt={subject.title}
-            className="w-full h-48 rounded-2xl object-cover"
-          />
-          <button 
-            onClick={handleDetails}
-            className="absolute top-3 right-3 bg-white text-black font-bold px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100 transition-colors"
-          >
-            Details
-          </button>
-        </div>
-        
-        <div className="p-4">
-          <h3 className="font-semibold mb-2">
-            {subject.title} - {subject.code}
-          </h3>
-          <div className="flex items-center text-gray-500 text-sm">
-            <Clock size={16} className="mr-2" />
-            {subject.time}
-          </div>
-          <div className="flex items-center mt-3">
+     <Card className="hover:shadow-lg transition-shadow">
+        <CardContent className="p-0">
+          <div className="relative">
             <img 
-              src={subject.instructorimage}
-              alt={subject.instructor}
-              className="w-8 h-8 rounded-full mr-2"
-            />
-            <span className="text-sm text-gray-600">{subject.instructor}</span>
+              src={subject.image}
+              alt={subject.title}
+              className="w-full h-48 rounded-2xl object-cover"
+            /> 
           </div>
-        </div>
-      </CardContent>
-    </Card>
+          
+          <div className="p-4">
+            <h3 className="font-semibold mb-2">
+              {subject.title} - {subject.code}
+            </h3>
+            <div className="flex items-center text-gray-500 text-sm">
+              <Clock size={16} className="mr-2" />
+              {subject.time}
+            </div>
+            <div className="flex items-center mt-3">
+              <img 
+                src={subject.instructorimage}
+                alt={subject.instructor}
+                className="w-8 h-8 rounded-full mr-2"
+              />
+              <span className="text-sm text-gray-600">{subject.instructor}</span>
+            </div>
+            
+            {/* New buttons section */}
+            <div className="flex gap-2 mt-4">
+              <Button
+                variant="outline" 
+                className="flex-1"
+                onClick={() => {handleDetails()}}
+              >
+                Details
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
   );
 };
 
