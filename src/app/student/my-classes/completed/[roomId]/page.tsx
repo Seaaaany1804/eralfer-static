@@ -54,7 +54,7 @@ export default function Page({  }: { params: { roomId: string } }) {
         <SidebarProvider>
             <AppSidebarStudent />
             <SidebarInset>
-                <div className="h-screen flex flex-col overflow-hidden">
+                <div className="h-screen flex flex-col">
                     <header className="flex h-16 shrink-0 items-center justify-between gap-2">
                         <div className="flex items-center gap-2 px-4">
                             <SidebarTrigger className="-ml-1" />
@@ -79,19 +79,19 @@ export default function Page({  }: { params: { roomId: string } }) {
                             </div>
                         </div>
                     </header>
-                    <div className="flex-1 p-4 pt-0 overflow-hidden">            
+                    <div className="flex-1 p-4 pt-0 overflow-y-auto">            
                         <div className="h-full">
-                            <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-4 mb-4 sm:mb-6">
                                 {moods.map((mood, index) => (
                                     <Card key={index} className="shadow-lg">
-                                        <CardContent className={`flex flex-col items-center justify-center p-4 rounded-[7px] ${mood.bgClass}`}>                    
-                                            <p className="text-lg font-semibold text-gray-800 mb-2">{mood.icon} {mood.label}</p>
-                                            <div className="flex justify-center items-center py-2">
+                                        <CardContent className={`flex flex-col items-center justify-center p-2 sm:p-4 rounded-[7px] ${mood.bgClass}`}>                    
+                                            <p className="text-sm sm:text-lg font-semibold text-gray-800 mb-1 sm:mb-2">{mood.icon} {mood.label}</p>
+                                            <div className="flex justify-center items-center py-1 sm:py-2">
                                                 <DonutChart
                                                     value={parseFloat(mood.percentage)} 
                                                     color={mood.color}
-                                                    size={100}
-                                                    strokeWidth={10}
+                                                    size={80}
+                                                    strokeWidth={8}
                                                 />
                                             </div>
                                         </CardContent>
@@ -99,22 +99,22 @@ export default function Page({  }: { params: { roomId: string } }) {
                                 ))}
                             </div>              
                             
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                                <Card className="col-span-1 shadow-lg h-[600px]">
-                                    <CardContent className="p-6 h-full">                      
-                                        <h2 className="text-xl font-semibold mb-4">Lesson Schedule</h2>
-                                        <ScrollArea className="h-[calc(100%-3rem)]">
-                                            <div className="grid grid-cols-1 gap-4 pr-4">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5 pb-6">
+                                <Card className="col-span-1 shadow-lg h-[400px] sm:h-[600px]">
+                                    <CardContent className="p-3 sm:p-6 h-full">                      
+                                        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Lesson Schedule</h2>
+                                        <ScrollArea className="h-[calc(100%-2.5rem)] sm:h-[calc(100%-3rem)]">
+                                            <div className="grid grid-cols-1 gap-3 sm:gap-4 pr-2 sm:pr-4">
                                                 {scheduleWithExpressions.map((lesson, index) => (
                                                     <Card key={index} className="shadow-sm">
-                                                        <CardContent className="p-4">
-                                                            <div className="flex justify-between items-center mb-2">
-                                                                <h3 className="font-medium">{lesson.title}</h3>
-                                                                <span className="text-gray-500">{lesson.time}</span>
+                                                        <CardContent className="p-3 sm:p-4">
+                                                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                                                                <h3 className="font-medium text-sm sm:text-base">{lesson.title}</h3>
+                                                                <span className="text-gray-500 text-xs sm:text-sm">{lesson.time}</span>
                                                             </div>
                                                             <div className="flex justify-between items-center">
-                                                                <span className="text-sm text-gray-600">Dominant: {lesson.dominantExpression}</span>
-                                                                <span className="font-medium">{lesson.percentage}%</span>
+                                                                <span className="text-xs sm:text-sm text-gray-600">Dominant: {lesson.dominantExpression}</span>
+                                                                <span className="font-medium text-xs sm:text-sm">{lesson.percentage}%</span>
                                                             </div>
                                                         </CardContent>
                                                     </Card>
@@ -124,21 +124,21 @@ export default function Page({  }: { params: { roomId: string } }) {
                                     </CardContent>
                                 </Card>
 
-                                <Card className="cols-span-1 shadow-lg h-[600px]">
-                                    <CardContent className="p-6 h-full">
-                                        <h2 className="text-xl font-semibold mb-4">Classes by Dominant Expression</h2>
-                                        <ScrollArea className="h-[calc(100%-3rem)]">
-                                            <div className="grid grid-cols-1 gap-4 pr-4">
+                                <Card className="cols-span-1 shadow-lg h-[400px] sm:h-[600px]">
+                                    <CardContent className="p-3 sm:p-6 h-full">
+                                        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Classes by Dominant Expression</h2>
+                                        <ScrollArea className="h-[calc(100%-2.5rem)] sm:h-[calc(100%-3rem)]">
+                                            <div className="grid grid-cols-1 gap-3 sm:gap-4 pr-2 sm:pr-4">
                                                 {classesWithExpressions.map((class_, index) => (
                                                     <Card key={index} className="shadow-sm">
-                                                        <CardContent className="p-4">
-                                                            <div className="flex justify-between items-center mb-2">
-                                                                <h3 className="font-medium">{class_.name}</h3>
-                                                                <span className="font-medium">{class_.percentage}%</span>
+                                                        <CardContent className="p-3 sm:p-4">
+                                                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                                                                <h3 className="font-medium text-sm sm:text-base">{class_.name}</h3>
+                                                                <span className="font-medium text-xs sm:text-sm">{class_.percentage}%</span>
                                                             </div>
                                                             <div className="flex justify-between items-center">
-                                                                <span className="text-sm text-gray-600">Dominant: {class_.dominantExpression}</span>
-                                                                <span className="text-sm text-gray-500">{class_.students} students</span>
+                                                                <span className="text-xs sm:text-sm text-gray-600">Dominant: {class_.dominantExpression}</span>
+                                                                <span className="text-xs sm:text-sm text-gray-500">{class_.students} students</span>
                                                             </div>
                                                         </CardContent>
                                                     </Card>

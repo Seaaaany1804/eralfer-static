@@ -38,7 +38,7 @@ interface Subject {
   instructorimage: string;
   image: string;
   status: string;
-  teacherId: string;
+  classId: string;
 }
 
 const SubjectCard = ({ subject }: { subject: Subject }) => {
@@ -55,7 +55,7 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
             className="w-full h-48 rounded-2xl object-cover"
           />
           <button 
-            onClick={() => router.push(`/student/my-classes/current/${subject.teacherId}`)}
+            onClick={() => router.push(`/student/my-classes/current/${subject.classId}`)}
             className={`absolute top-3 right-3 ${
               subject.status === 'ongoing' ? 'bg-white' : 'bg-gray-500'
             } text-black font-bold px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100 transition-colors`}
@@ -141,7 +141,29 @@ export default function Page() {
       instructorimage: "/images/user.png",
       image: "/images/subject-image.png",
       status: "ongoing",
-      teacherId: "teacher123"
+      classId: "D-CP-101"
+    },
+    {
+      id: 2,
+      title: "Computer Programming 2",
+      code: "CRP-2002025",
+      time: "10:00AM - 12:00PM",
+      instructor: "Jane Smith",
+      instructorimage: "/images/user.png",
+      image: "/images/subject-image.png",
+      status: "ongoing",
+      classId: "D-CP-102"
+    },
+    {
+      id: 3,
+      title: "Computer Programming 3",
+      code: "CRP-2002026",
+      time: "12:00PM - 2:00PM",
+      instructor: "John Doe",
+      instructorimage: "/images/user.png",
+      image: "/images/subject-image.png",
+      status: "ongoing",
+      classId: "D-CP-103"
     },
   ];
 
