@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Bell, Book } from "lucide-react";
 import { useEffect, useState } from "react";
 import FacialExpressionRecognition from "@/app/components/face-expression-recognition";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@radix-ui/react-separator";
 
 export default function Page() {
@@ -74,14 +74,20 @@ export default function Page() {
         <header className="flex h-16 shrink-0 items-center justify-between gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Separator orientation="horizontal" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Current Class
+                  <BreadcrumbLink href="/student/my-classes/current">
+                    List of Subjects
                   </BreadcrumbLink>
-                </BreadcrumbItem>                
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="#">
+                    Current Subject Details
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>              
             </Breadcrumb>            
           </div>          
@@ -105,45 +111,46 @@ export default function Page() {
                 <p className="text-black font-semibold text-lg">Time: {currentTime.toLocaleTimeString()}</p>
             </div>
             <div className="w-full">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 sm:gap-4 mb-4 sm:mb-6">
                 {moods.map((mood, index) => (
                   <Card key={index} className="shadow-lg">
-                    <CardContent className={`flex flex-col items-center justify-center p-4 rounded-[7px] ${mood.bgClass}`}>                    
-                      <p className="text-lg font-semibold text-gray-800">{mood.icon} {mood.label}</p>
-                      <p className="text-lg font-semibold text-gray-800">{mood.percentage} %</p>
+                    <CardContent className={`flex flex-col items-center justify-center p-2 sm:p-4 rounded-[7px] ${mood.bgClass}`}>                    
+                      <p className="text-base sm:text-lg font-semibold text-gray-800">{mood.icon} {mood.label}</p>
+                      <p className="text-base sm:text-lg font-semibold text-gray-800">{mood.percentage} %</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <Card className="col-span-1 shadow-lg order-1">
-                  <CardContent className="flex items-center justify-center p-2 min-h-[400px] sm:min-h-[450px] lg:min-h-[570px]">
-                      <FacialExpressionRecognition onExpressionsDetected={handleExpressionsDetected} />                      
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                <Card className="col-span-1 shadow-lg">
+                  <CardContent className="flex items-center justify-center p-2 min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[570px]">
+                    <FacialExpressionRecognition onExpressionsDetected={handleExpressionsDetected} />                      
                   </CardContent>
                 </Card>
-                <Card className="cols-span-3 shadow-lg order-2">
-                  <CardContent className="p-4 sm:p-4 lg:p-6">
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Lesson Plan</h2>
-                    <div className="overflow-y-auto max-h-[350px] sm:max-h-[400px] lg:max-h-[450px]">
-                      <div className="space-y-16 sm:space-y-24 lg:space-y-32 px-2 sm:px-4">
+                
+                <Card className="col-span-1 shadow-lg">
+                  <CardContent className="p-3 sm:p-4 lg:p-6">
+                    <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4 text-center">Lesson Plan</h2>
+                    <div className="overflow-y-auto max-h-[300px] sm:max-h-[400px] md:max-h-[500px] lg:max-h-[450px]">
+                      <div className="space-y-12 sm:space-y-16 md:space-y-24 lg:space-y-32 px-2 sm:px-4">
                         {timelineItems.map((item, index) => (
                           <div key={index} className="relative">
-                            <div className="bg-black text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm w-fit">
+                            <div className="bg-black text-white px-2 py-1 rounded text-xs sm:text-sm w-fit">
                               {item.time}
                             </div>
                             
-                            <div className="absolute left-16 sm:left-20 lg:left-24 top-0 h-full">
+                            <div className="absolute left-12 sm:left-16 md:left-20 lg:left-24 top-0 h-full">
                               <div className="relative h-full">
                                 <div className="absolute top-3 w-2 h-2 bg-black rounded-full"></div>
                                 {index !== timelineItems.length - 1 && (
-                                  <div className="absolute top-4 left-1 w-0.5 h-[100px] sm:h-[125px] lg:h-[153px] bg-black"></div>
+                                  <div className="absolute top-4 left-1 w-0.5 h-[80px] sm:h-[100px] md:h-[125px] lg:h-[153px] bg-black"></div>
                                 )}
                               </div>
                             </div>
                             
-                            <div className="absolute left-24 sm:left-28 lg:left-32 top-1 flex flex-col max-w-[150px] sm:max-w-[200px] lg:max-w-none">
+                            <div className="absolute left-20 sm:left-24 md:left-28 lg:left-32 top-1 flex flex-col max-w-[120px] sm:max-w-[180px] md:max-w-[200px] lg:max-w-none">
                               <span className="text-xs sm:text-sm text-gray-600">{item.title}</span>
-                              <span className="text-xs sm:text-sm text-gray-800 line-clamp-3 sm:line-clamp-4">{item.desc}</span>
+                              <span className="text-xs sm:text-sm text-gray-800 line-clamp-2 sm:line-clamp-3 md:line-clamp-4">{item.desc}</span>
                             </div>
                           </div>
                         ))}

@@ -1,5 +1,5 @@
 "use client"
-import { AppSidebarTeacher } from '@/app/components/app-sidebar-teacher'
+import { AppSidebarStudent } from '@/app/components/app-sidebar-student'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import {
   Card,
@@ -7,18 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { CalendarDays } from 'lucide-react'
 import { useState } from 'react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 const SubjectDetails = () => {
 
@@ -33,10 +27,10 @@ const SubjectDetails = () => {
   ]);
 
   const schedules = [
-    { id: 1, date: '2024-02-20', time: '10:00 AM', status: 'Finished' },
-    { id: 2, date: '2024-02-22', time: '2:00 PM', status: 'Upcoming' },
-    { id: 3, date: '2024-02-19', time: '11:30 AM', status: 'Canceled' },
-    { id: 4, date: '2024-02-25', time: '9:00 AM', status: 'Upcoming' },
+    { id: 1, date: '2024-02-20', time: '10:00 AM to 11:00 AM', status: 'Finished' },
+    { id: 2, date: '2024-02-22', time: '11:00 AM to 12:00 PM', status: 'Upcoming' },
+    { id: 3, date: '2024-02-19', time: '11:30 AM to 12:00 PM', status: 'Canceled' },
+    { id: 4, date: '2024-02-25', time: '9:00 AM to 10:00 AM', status: 'Upcoming' },
   ]
 
   const getStatusColor = (status: string) => {
@@ -54,8 +48,26 @@ const SubjectDetails = () => {
 
   return (
     <SidebarProvider>
-      <AppSidebarTeacher />
+      <AppSidebarStudent />
       <SidebarInset>
+      <header className="flex h-16 shrink-0 items-center justify-between gap-2">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/student/my-classes/current">
+                    List of Subjects
+                  </BreadcrumbLink>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbLink href="#">
+                    Current Subject Details
+                  </BreadcrumbLink>
+                </BreadcrumbItem>                
+              </BreadcrumbList>              
+            </Breadcrumb>            
+          </div>          
+        </header>
         <div className="p-2 sm:p-4 md:p-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
             <div>
@@ -90,29 +102,25 @@ const SubjectDetails = () => {
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[300px] sm:h-[400px] pr-4">
-                  <div className="w-full overflow-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="whitespace-nowrap">Date</TableHead>
-                          <TableHead className="whitespace-nowrap">Time</TableHead>
-                          <TableHead className="whitespace-nowrap">Status</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {schedules.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((schedule) => (
-                          <TableRow key={schedule.id}>
-                            <TableCell className="whitespace-nowrap">{schedule.date}</TableCell>
-                            <TableCell className="whitespace-nowrap">{schedule.time}</TableCell>
-                            <TableCell>
-                              <Badge variant="secondary" className={`${getStatusColor(schedule.status)} text-white whitespace-nowrap`}>
-                                {schedule.status}
-                              </Badge>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                  <div className="grid gap-4">
+                    {schedules
+                      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                      .map((schedule) => (
+                        <Card key={schedule.id} className="p-4">
+                          <div className="flex justify-between items-center">
+                            <div className="space-y-2">
+                              <div className="font-medium">{schedule.date}</div>
+                              <div className="text-sm text-gray-500">{schedule.time}</div>
+                            </div>
+                            <Badge 
+                              variant="secondary" 
+                              className={`${getStatusColor(schedule.status)} text-white whitespace-nowrap`}
+                            >
+                              {schedule.status}
+                            </Badge>
+                          </div>
+                        </Card>
+                      ))}
                   </div>
                 </ScrollArea>
               </CardContent>

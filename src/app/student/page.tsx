@@ -134,34 +134,36 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">            
             <div className="w-full">
-              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-4 mb-4 sm:mb-6">
                 {moods.map((mood, index) => (
                   <Card key={index} className="shadow-sm">
-                    <CardContent className={`flex flex-col items-center justify-center h-full p-4 ${mood.bgClass}`}>                    
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl">{mood.icon}</span>
-                        <span className="text-lg font-semibold text-gray-800">{mood.label}</span>
+                    <CardContent className={`flex flex-col items-center justify-center h-full p-2 sm:p-4 ${mood.bgClass}`}>                    
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <span className="text-xl sm:text-2xl">{mood.icon}</span>
+                        <span className="text-sm sm:text-lg font-semibold text-gray-800">{mood.label}</span>
                       </div>
-                      <p className="text-lg font-semibold text-gray-800">{mood.percentage}%</p>
+                      <p className="text-sm sm:text-lg font-semibold text-gray-800">{mood.percentage}%</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 <Card className="col-span-1 shadow-lg">
-                  <CardContent className="p-4">                      
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-start">Top Completed Classes with Positive Expressions</h2>
-                    <ScrollArea className="h-[500px] pr-4">
-                      <div className="space-y-4">
+                  <CardContent className="p-3 sm:p-4">                      
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 text-start">
+                      Top Completed Classes with Positive Expressions
+                    </h2>
+                    <ScrollArea className="h-[400px] sm:h-[500px] pr-2 sm:pr-4">
+                      <div className="space-y-3 sm:space-y-4">
                         {completedClasses.map((classItem) => (
                           <Card key={classItem.id} className="bg-gray-50">
-                            <CardContent className="p-4">
-                              <div className="flex items-center justify-between">
+                            <CardContent className="p-3 sm:p-4">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
                                 <div>
-                                  <p className="font-medium">{classItem.name}</p>
-                                  <p className="text-sm text-gray-600">{classItem.students} students enrolled</p>
+                                  <p className="font-medium text-sm sm:text-base">{classItem.name}</p>
+                                  <p className="text-xs sm:text-sm text-gray-600">{classItem.students} students enrolled</p>
                                 </div>
-                                <div className="flex gap-x-4 text-sm">
+                                <div className="flex gap-x-2 sm:gap-x-4 text-xs sm:text-sm">
                                   <span className="flex items-center">😊 {classItem.emotions.happy}%</span>
                                   <span className="flex items-center">😲 {classItem.emotions.surprised}%</span>
                                   <span className="flex items-center">😐 {classItem.emotions.neutral}%</span>
