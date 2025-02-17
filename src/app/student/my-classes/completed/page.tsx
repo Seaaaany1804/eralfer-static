@@ -48,13 +48,13 @@ interface Subject {
   instructorimage: string;
   image: string;
   status: string;
-  teacherId: string;
+  roomId: string;
 }
 
 const SubjectCard = ({ subject }: { subject: Subject }) => {
   const router = useRouter();
   const handleDetails = () => {
-    router.push(`/student/my-classes/completed/${subject.teacherId}`);
+    router.push(`/student/my-classes/completed/${subject.roomId}`);
   };
 
   return (
@@ -125,7 +125,7 @@ export default function Page() {
       instructorimage: "/images/user.png",
       image: "/images/subject-image.png",
       status: "ongoing",
-      teacherId: "teacher123"
+      roomId: "CP-101"
     },
   ];
 
