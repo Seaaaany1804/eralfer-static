@@ -1,5 +1,4 @@
 "use client";
-
 import { AppSidebarTeacher } from "@/app//components/app-sidebar-teacher"
 import {
   Breadcrumb,
@@ -8,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -32,83 +32,6 @@ export default function Page() {
       status: "ongoing",
       teacherId: "teacher123"
     },
-    {
-      id: 2,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 3,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 4,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 5,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 6,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 7,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
-    {
-      id: 8,
-      title: "Computer Programming 1",
-      code: "CRP-2002024",
-      time: "10:00AM - 12:00PM",
-      instructor: "John Doe",
-      instructorimage: "/images/user.png",
-      image: "/images/subject-image.png",
-      status: "completed",
-      teacherId: "teacher123"
-    },
   ];
 
   interface Subject {
@@ -125,7 +48,7 @@ export default function Page() {
 
   const SubjectCard = ({ subject }: { subject: Subject }) => {
     const router = useRouter();
-
+  
     return (
       <Card className="hover:shadow-lg transition-shadow">
         <CardContent className="p-0">
@@ -134,7 +57,7 @@ export default function Page() {
               src={subject.image}
               alt={subject.title}
               className="w-full h-48 rounded-2xl object-cover"
-            />
+            /> 
             <button 
               onClick={() => router.push(`/teachers/${subject.teacherId}`)}
               className={`absolute top-3 right-3 ${
@@ -160,6 +83,17 @@ export default function Page() {
                 className="w-8 h-8 rounded-full mr-2"
               />
               <span className="text-sm text-gray-600">{subject.instructor}</span>
+            </div>
+            
+            {/* New buttons section */}
+            <div className="flex gap-2 mt-4">
+              <Button
+                variant="outline" 
+                className="flex-1"
+                onClick={() => router.push(`/teacher/my-classes/completed/completedSubjectDetails`)}
+              >
+                Details
+              </Button>
             </div>
           </div>
         </CardContent>

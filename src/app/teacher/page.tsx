@@ -71,7 +71,7 @@ export default function Page() {
                     </div>          
                     <div className="flex items-center space-x-4">
                         <div className="relative">
-                            <button className="p-2 rounded-full hover:bg-gray-100">
+                            <button aria-label='bell' className="p-2 rounded-full hover:bg-gray-100">
                                 <Bell className="w-6 h-6 text-gray-600" />
                             </button>
                         </div>

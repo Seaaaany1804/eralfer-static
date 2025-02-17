@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { AppSidebarTeacher } from "@/app//components/app-sidebar-teacher"
+import { AppSidebarTeacher } from "@/app/components/app-sidebar-teacher"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,17 +26,17 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Clock, Plus, X } from "lucide-react"
+import { Clock, Plus, X, Search } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command"
+
+interface Student {
+  id: number;
+  name: string;
+  grade: string;
+  section: string;
+}
 
 interface Subject {
   id: number;
@@ -52,8 +52,57 @@ interface Subject {
 
 const SubjectCard = ({ subject }: { subject: Subject }) => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentStudents, setCurrentStudents] = useState<Student[]>([
+    // Initial current students data
+    { id: 7, name: "Anna Brown", grade: "Grade 10", section: "A" },
+    { id: 8, name: "Michael Chen", grade: "Grade 10", section: "B" },
+    { id: 9, name: "Sarah Johnson", grade: "Grade 10", section: "C" },
+  ]);
+  const [studentToRemove, setStudentToRemove] = useState<Student | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+  // Simulated students data - replace with your actual data fetching logic
+  const availableStudents = [
+    { id: 1, name: "Emma Wilson", grade: "Grade 10", section: "A" },
+    { id: 2, name: "James Anderson", grade: "Grade 10", section: "B" },
+    { id: 3, name: "Sophia Garcia", grade: "Grade 10", section: "A" },
+    { id: 4, name: "Lucas Martinez", grade: "Grade 10", section: "C" },
+    { id: 5, name: "Olivia Thompson", grade: "Grade 10", section: "B" },
+    { id: 6, name: "William Lee", grade: "Grade 10", section: "A" },
+  ];
+
   const handleJoin = () => {
     router.push(`/teacher/my-classes/current/${subject.teacherId}`);
+  };
+
+  const filteredStudents = availableStudents.filter(
+    (student) =>
+      student.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !currentStudents.some((selected) => selected.id === student.id)
+  );
+
+  const handleAddStudent = (student: Student) => {
+    if (!currentStudents.some((selected) => selected.id === student.id)) {
+      setCurrentStudents((prev) => [...prev, student]);
+      setSearchQuery("");
+    }
+  };
+
+  const handleRemoveInitiate = (student: Student) => {
+    setStudentToRemove(student);
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirmRemove = () => {
+    if (studentToRemove) {
+      setCurrentStudents((prev) => 
+        prev.filter((student) => student.id !== studentToRemove.id)
+      );
+      setShowConfirmDialog(false);
+      setStudentToRemove(null);
+    }
   };
 
   return (
@@ -91,6 +140,118 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
             />
             <span className="text-sm text-gray-600">{subject.instructor}</span>
           </div>
+
+          <div className="flex gap-2 mt-4">
+            <Button
+              variant="outline" 
+              className="flex-1"
+              onClick={() => router.push(`/teacher/my-classes/current/subjectDetails`)}
+            >
+              Details
+            </Button>
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="flex-1">
+                  View Students
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Manage Students</DialogTitle>
+                  <DialogDescription>
+                    Add or remove students from {subject.title}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                  {/* Current Students */}
+                  <div>
+                    <Label>Current Students</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {currentStudents.map((student) => (
+                        <div
+                          key={student.id}
+                          className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md"
+                        >
+                          <span className="text-sm">{student.name}</span>
+                          <button
+                            aria-label='bell'
+                            type="button"
+                            onClick={() => handleRemoveInitiate(student)}
+                            className="text-muted-foreground hover:text-foreground"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                      {currentStudents.length === 0 && (
+                        <p className="text-sm text-gray-500">No students added yet</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Search and Add Students */}
+                  <div className="space-y-2">
+                    <Label>Add Students</Label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                      <Input
+                        type="text"
+                        placeholder="Search students..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+                    <div className="mt-2 space-y-2 max-h-40 overflow-y-auto">
+                      {filteredStudents.length > 0 ? (
+                        filteredStudents.map((student) => (
+                          <div
+                            key={student.id}
+                            className="p-2 border rounded hover:bg-secondary cursor-pointer"
+                            onClick={() => handleAddStudent(student)}
+                          >
+                            <p className="font-medium">{student.name}</p>
+                            <p className="text-sm text-gray-500">
+                              {student.grade} - Section {student.section}
+                            </p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-center py-2">No students found</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Confirmation Dialog */}
+            <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Confirm Removal</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to remove {studentToRemove?.name} from this class?
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex justify-end gap-2 mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowConfirmDialog(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={handleConfirmRemove}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -100,8 +261,8 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     code: "",
@@ -109,14 +270,13 @@ export default function Page() {
     image: ""
   });
 
-  // Sample students data - replace with your actual data
-  const students = [
-    "John Doe",
-    "Jane Smith",
-    "Bob Wilson",
-    "Alice Johnson",
-    "Charlie Brown",
-    "Diana Prince",
+  const availableStudents = [
+    { id: 1, name: "Emma Wilson", grade: "Grade 10", section: "A" },
+    { id: 2, name: "James Anderson", grade: "Grade 10", section: "B" },
+    { id: 3, name: "Sophia Garcia", grade: "Grade 10", section: "A" },
+    { id: 4, name: "Lucas Martinez", grade: "Grade 10", section: "C" },
+    { id: 5, name: "Olivia Thompson", grade: "Grade 10", section: "B" },
+    { id: 6, name: "William Lee", grade: "Grade 10", section: "A" },
   ];
 
   const subjects: Subject[] = [
@@ -133,40 +293,44 @@ export default function Page() {
     },
   ];
 
-  const filteredStudents = students.filter(student => 
-    student.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    !selectedStudents.includes(student)
+  const filteredStudents = availableStudents.filter(
+    (student) =>
+      student.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !selectedStudents.some((selected) => selected.id === student.id)
   );
 
-  const handleAddStudent = (student: string) => {
-    setSelectedStudents(prev => [...prev, student]);
-    setSearchTerm("");
+  const handleAddStudent = (student: Student) => {
+    if (!selectedStudents.some((selected) => selected.id === student.id)) {
+      setSelectedStudents((prev) => [...prev, student]);
+      setSearchQuery("");
+    }
   };
 
-  const handleRemoveStudent = (studentToRemove: string) => {
-    setSelectedStudents(prev => 
-      prev.filter(student => student !== studentToRemove)
+  const handleRemoveStudent = (studentId: number) => {
+    setSelectedStudents((prev) => 
+      prev.filter((student) => student.id !== studentId)
     );
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Add your submission logic here
-    console.log("Form Data:", formData);
-    console.log("Selected Students:", selectedStudents);
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Add your submission logic here
+      console.log("Form Data:", formData);
+      console.log("Selected Students:", selectedStudents);
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       setIsOpen(false);
       setFormData({
         title: "",
@@ -175,7 +339,11 @@ export default function Page() {
         image: ""
       });
       setSelectedStudents([]);
-    }, 1000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -223,6 +391,7 @@ export default function Page() {
                       value={formData.title}
                       onChange={handleInputChange}
                       placeholder="e.g. Computer Programming 1"
+                      required
                     />
                   </div>
                   <div className="space-y-2">
@@ -233,6 +402,7 @@ export default function Page() {
                       value={formData.code}
                       onChange={handleInputChange}
                       placeholder="e.g. CRP-2002024"
+                      required
                     />
                   </div>
                   <div className="space-y-2">
@@ -243,20 +413,23 @@ export default function Page() {
                       value={formData.time}
                       onChange={handleInputChange}
                       placeholder="e.g. 8:00AM - 10:00AM"
+                      required
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="students">Student Attendees</Label>
+                    {/* Selected Students */}
                     <div className="flex flex-wrap gap-2 mb-2">
                       {selectedStudents.map((student) => (
                         <div
-                          key={student}
+                          key={student.id}
                           className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md"
                         >
-                          <span className="text-sm">{student}</span>
+                          <span className="text-sm">{student.name}</span>
                           <button
+                            aria-label='bell'
                             type="button"
-                            onClick={() => handleRemoveStudent(student)}
+                            onClick={() => handleRemoveStudent(student.id)}
                             className="text-muted-foreground hover:text-foreground"
                           >
                             <X className="h-3 w-3" />
@@ -264,31 +437,36 @@ export default function Page() {
                         </div>
                       ))}
                     </div>
-                    <Command className="border rounded-md">
-                      <CommandInput
+                    {/* Search Input */}
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                      <Input
+                        type="text"
                         placeholder="Search students..."
-                        value={searchTerm}
-                        onValueChange={setSearchTerm}
-                        className="border-none focus:ring-0"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 w-full"
                       />
-                      {searchTerm && (
-                        <CommandGroup className="max-h-40 overflow-auto">
-                          {filteredStudents.length === 0 ? (
-                            <CommandEmpty>No students found.</CommandEmpty>
-                          ) : (
-                            filteredStudents.map((student) => (
-                              <CommandItem
-                                key={student}
-                                onSelect={() => handleAddStudent(student)}
-                                className="cursor-pointer"
-                              >
-                                {student}
-                              </CommandItem>
-                            ))
-                          )}
-                        </CommandGroup>
+                    </div>
+                    {/* Display Filtered Students */}
+                    <div className="mt-2 space-y-2 max-h-40 overflow-y-auto">
+                      {filteredStudents.length > 0 ? (
+                        filteredStudents.map((student) => (
+                          <div
+                            key={student.id}
+                            className="p-2 border rounded hover:bg-secondary cursor-pointer"
+                            onClick={() => handleAddStudent(student)}
+                          >
+                            <p className="font-medium">{student.name}</p>
+                            <p className="text-sm text-gray-500">
+                              {student.grade} - Section {student.section}
+                            </p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-500 text-center py-2">No students found.</p>
                       )}
-                    </Command>
+                    </div>
                   </div>
 
                   <div className="flex justify-end gap-2 pt-4">
