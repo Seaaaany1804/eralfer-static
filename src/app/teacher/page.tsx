@@ -77,7 +77,7 @@ export default function Page() {
                         </div>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">            
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0 overflow-hidden">            
                     <div className="w-full">
                         <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
                             {moods.map((mood, index) => (
@@ -97,10 +97,10 @@ export default function Page() {
                             ))}
                         </div>              
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            <Card className="col-span-1 shadow-lg h-[740px]">
-                                <CardContent className="p-6 h-full">                      
+                            <Card className="col-span-1 shadow-lg h-[700px] overflow-hidden">
+                                <CardContent className="p-6 h-full flex flex-col">                      
                                     <h2 className="text-xl font-semibold mb-4">Current Students</h2>
-                                    <ScrollArea className="h-[650px] w-full">
+                                    <ScrollArea className="flex-1">
                                         <div className="space-y-4 pr-4">
                                             {currentStudents.map((student, index) => (
                                                 <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
@@ -119,10 +119,10 @@ export default function Page() {
                                     </ScrollArea>
                                 </CardContent>
                             </Card>
-                            <Card className="cols-span-1 shadow-lg h-[740px]">
-                                <CardContent className="p-6 h-full">
+                            <Card className="col-span-1 shadow-lg h-[700px] overflow-hidden">
+                                <CardContent className="p-6 h-full flex flex-col">
                                     <h2 className="text-xl font-semibold mb-4">Top 10 Classes with Positive Expression</h2>
-                                    <ScrollArea className="h-[650px] w-full">
+                                    <ScrollArea className="flex-1">
                                         <div className="space-y-4 pr-4">
                                             {positiveClasses.map((class_, index) => (
                                                 <div key={index} className="p-4 bg-gray-50 rounded-lg">
