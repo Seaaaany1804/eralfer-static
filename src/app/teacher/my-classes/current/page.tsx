@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { AppSidebarTeacher } from "@/app/components/app-sidebar-teacher"
 import {
