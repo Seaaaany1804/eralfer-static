@@ -31,17 +31,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts'
-import { CalendarDays, Users } from 'lucide-react'
-import DonutChart from '@/components/donutchart';
+import { CalendarDays, Users, ChevronRight } from 'lucide-react'
+import DonutChart from '@/components/donutchart'
 import { useState } from 'react'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 
 const completedSubjectDetails = () => {
-  const ferData = [
-    { name: 'Happy', value: 45 },
-    { name: 'Neutral', value: 30 },
-    { name: 'Sad', value: 25 },
-  ]
-
   const [moods] = useState([
     { icon: "😲", percentage: "25.00", label: "Surprised", bgClass: "bg-gray-100/50", color: "text-orange-500" },
     { icon: "😊", percentage: "15.00", label: "Happy", bgClass: "bg-gray-100/50", color: "text-green-500" },
@@ -51,8 +46,6 @@ const completedSubjectDetails = () => {
     { icon: "😡", percentage: "12.00", label: "Angry", bgClass: "bg-gray-100/50", color: "text-red-500" },
     { icon: "😨", percentage: "10.00", label: "Fearful", bgClass: "bg-gray-100/50", color: "text-slate-500" }
   ]);
-  
-  const COLORS = ['#4CAF50', '#2196F3', '#F44336']
 
   const students = [
     { id: 1, name: 'Emma Wilson', dominantExpression: 'Happy', average: 85 },
@@ -60,27 +53,7 @@ const completedSubjectDetails = () => {
     { id: 3, name: 'Sophia Garcia', dominantExpression: 'Happy', average: 92 },
     { id: 4, name: 'Lucas Martinez', dominantExpression: 'Sad', average: 65 },
     { id: 5, name: 'Olivia Thompson', dominantExpression: 'Happy', average: 88 },
-  ]
-
-  const schedules = [
-    { id: 1, date: '2024-02-20', time: '10:00 AM', status: 'Finished' },
-    { id: 2, date: '2024-02-22', time: '2:00 PM', status: 'Upcoming' },
-    { id: 3, date: '2024-02-19', time: '11:30 AM', status: 'Canceled' },
-    { id: 4, date: '2024-02-25', time: '9:00 AM', status: 'Upcoming' },
-  ]
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Finished':
-        return 'bg-green-500'
-      case 'Upcoming':
-        return 'bg-blue-500'
-      case 'Canceled':
-        return 'bg-red-500'
-      default:
-        return 'bg-gray-500'
-    }
-  }
+  ];
 
   const timelineItems = [
     { time: "8:00AM", title: "What is Java?", desc: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." },
@@ -95,10 +68,29 @@ const completedSubjectDetails = () => {
       <AppSidebarTeacher />
       <SidebarInset>
         <div className="p-2 sm:p-4 md:p-6">
+          <Breadcrumb className="mb-6">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/teacher">My Classes</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight className="h-4 w-4" />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/teacher/my-classes/completed">Completed</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight className="h-4 w-4" />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbLink href='/teacher/my-classes/completed/completedSubjectDetails'>Computer Programming 1</BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold">Computer Programming 1</h1>
-              <p className="text-sm sm:text-md font-extralight">Subject Details</p>
             </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -120,7 +112,7 @@ const completedSubjectDetails = () => {
             </AlertDialog>
           </div>
 
-          <div className="h-auto sm:h-[180px] mb-6">
+          <div className="h-auto sm:h-[165px] mb-6">
             <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 sm:gap-4">
               {moods.map((mood, index) => (
                 <Card key={index} className="shadow-lg">
@@ -142,34 +134,34 @@ const completedSubjectDetails = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 h-auto lg:h-[63vh]">
             <Card className="w-full">
-            <CardContent className="p-4 sm:p-4 lg:p-6">
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Lesson Plan</h2>
-                    <div className="overflow-y-auto max-h-[350px] sm:max-h-[400px] lg:max-h-[450px]">
-                      <div className="space-y-16 sm:space-y-24 lg:space-y-32 px-2 sm:px-4">
-                        {timelineItems.map((item, index) => (
-                          <div key={index} className="relative">
-                            <div className="bg-black text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm w-fit">
-                              {item.time}
-                            </div>
-                            
-                            <div className="absolute left-16 sm:left-20 lg:left-24 top-0 h-full">
-                              <div className="relative h-full">
-                                <div className="absolute top-3 w-2 h-2 bg-black rounded-full"></div>
-                                {index !== timelineItems.length - 1 && (
-                                  <div className="absolute top-4 left-1 w-0.5 h-[100px] sm:h-[125px] lg:h-[153px] bg-black"></div>
-                                )}
-                              </div>
-                            </div>
-                            
-                            <div className="absolute left-24 sm:left-28 lg:left-32 top-1 flex flex-col max-w-[150px] sm:max-w-[200px] lg:max-w-none">
-                              <span className="text-xs sm:text-sm text-gray-600">{item.title}</span>
-                              <span className="text-xs sm:text-sm text-gray-800 line-clamp-3 sm:line-clamp-4">{item.desc}</span>
-                            </div>
+              <CardContent className="p-4 sm:p-4 lg:p-6">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Lesson Plan</h2>
+                <div className="overflow-y-auto max-h-[350px] sm:max-h-[400px] lg:max-h-[450px]">
+                  <div className="space-y-16 sm:space-y-24 lg:space-y-32 px-2 sm:px-4">
+                    {timelineItems.map((item, index) => (
+                      <div key={index} className="relative">
+                        <div className="bg-black text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm w-fit">
+                          {item.time}
+                        </div>
+                        
+                        <div className="absolute left-16 sm:left-20 lg:left-24 top-0 h-full">
+                          <div className="relative h-full">
+                            <div className="absolute top-3 w-2 h-2 bg-black rounded-full"></div>
+                            {index !== timelineItems.length - 1 && (
+                              <div className="absolute top-4 left-1 w-0.5 h-[100px] sm:h-[125px] lg:h-[153px] bg-black"></div>
+                            )}
                           </div>
-                        ))}
+                        </div>
+                        
+                        <div className="absolute left-24 sm:left-28 lg:left-32 top-1 flex flex-col max-w-[150px] sm:max-w-[200px] lg:max-w-none">
+                          <span className="text-xs sm:text-sm text-gray-600">{item.title}</span>
+                          <span className="text-xs sm:text-sm text-gray-800 line-clamp-3 sm:line-clamp-4">{item.desc}</span>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
             </Card>
 
             <Card className="w-full">

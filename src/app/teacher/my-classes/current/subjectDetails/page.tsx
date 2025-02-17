@@ -29,12 +29,18 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { CalendarDays, Users } from 'lucide-react'
-import DonutChart from '@/components/donutchart';
+import { CalendarDays, Users, ChevronRight } from 'lucide-react'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import DonutChart from '@/components/donutchart'
 import { useState } from 'react'
 
 const SubjectDetails = () => {
-
   const [moods] = useState([
     { icon: "😲", percentage: "25.00", label: "Surprised", bgClass: "bg-gray-100/50", color: "text-orange-500" },
     { icon: "😊", percentage: "15.00", label: "Happy", bgClass: "bg-gray-100/50", color: "text-green-500" },
@@ -44,7 +50,6 @@ const SubjectDetails = () => {
     { icon: "😡", percentage: "12.00", label: "Angry", bgClass: "bg-gray-100/50", color: "text-red-500" },
     { icon: "😨", percentage: "10.00", label: "Fearful", bgClass: "bg-gray-100/50", color: "text-slate-500" }
   ]);
-  
 
   const students = [
     { id: 1, name: 'Emma Wilson', dominantExpression: 'Happy', average: 85 },
@@ -79,10 +84,29 @@ const SubjectDetails = () => {
       <AppSidebarTeacher />
       <SidebarInset>
         <div className="p-2 sm:p-4 md:p-6">
+        <Breadcrumb className="mb-6">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/my-classes">My Classes</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight className="h-4 w-4" />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/teacher/my-classes/current">Current</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight className="h-4 w-4" />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbLink href='/teacher/my-classes/current/subjectDetails'>Computer Programming 1</BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold">Computer Programming 1</h1>
-              <p className="text-sm sm:text-md font-extralight">Subject Details</p>
             </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -104,7 +128,7 @@ const SubjectDetails = () => {
             </AlertDialog>
           </div>
 
-          <div className="h-auto sm:h-[180px] mb-6">
+          <div className="h-auto sm:h-[165px] mb-6">
             <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 sm:gap-4">
               {moods.map((mood, index) => (
                 <Card key={index} className="shadow-lg">

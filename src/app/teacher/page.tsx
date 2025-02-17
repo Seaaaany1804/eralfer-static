@@ -9,7 +9,6 @@ import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
 import DonutChart from '@/components/donutchart';
 
 export default function Page() {
@@ -53,23 +52,49 @@ export default function Page() {
         return () => clearInterval(interval);
     }, []);
 
+    // Function to determine chart size based on screen size
+    const getChartSize = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth < 640) return 60; // Small screens
+            if (window.innerWidth < 1024) return 80; // Medium screens
+            return 100; // Large screens
+        }
+        return 80; // Default fallback
+    };
+
+    // For client-side rendering only
+    const [chartSize, setChartSize] = useState(80);
+
+    useEffect(() => {
+        // Set initial size
+        setChartSize(getChartSize());
+        
+        // Update size on window resize
+        const handleResize = () => {
+            setChartSize(getChartSize());
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    
     return (    
         <SidebarProvider>
             <AppSidebarTeacher />
-            <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 px-4">
+            <SidebarInset className="h-screen flex flex-col overflow-y-auto overflow-x-hidden">
+                <header className="flex h-16 shrink-0 items-center justify-between gap-2 sticky top-0 bg-white z-10 px-2 sm:px-4">
+                    <div className="flex items-center gap-2">
                         <SidebarTrigger className="-ml-1" />
                         <Separator orientation="vertical" className="mr-2 h-4" />
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                                    <BreadcrumbLink href="/teacher">Dashboard</BreadcrumbLink>
                                 </BreadcrumbItem>                
                             </BreadcrumbList>              
                         </Breadcrumb>            
                     </div>          
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center">
                         <div className="relative">
                             <button aria-label='bell' className="p-2 rounded-full hover:bg-gray-100">
                                 <Bell className="w-6 h-6 text-gray-600" />
@@ -77,65 +102,82 @@ export default function Page() {
                         </div>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0 overflow-hidden">            
-                    <div className="w-full">
-                        <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-6">
+                <div className="flex-1 p-2 sm:p-4 pt-0">            
+                    <div className="h-full flex flex-col gap-2 sm:gap-4">
+                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 sm:gap-4">
                             {moods.map((mood, index) => (
                                 <Card key={index} className="shadow-lg">
-                                    <CardContent className={`flex flex-col items-center justify-center p-4 rounded-[7px] ${mood.bgClass}`}>                    
-                                        <p className="text-lg font-semibold text-gray-800 mb-2">{mood.icon} {mood.label}</p>
-                                        <div className="flex justify-center items-center py-2">
-                                            <DonutChart
-                                                value={parseFloat(mood.percentage)} 
-                                                color={mood.color}
-                                                size={100}
-                                                strokeWidth={10}
-                                            />
+                                    <CardContent className={`flex flex-col items-center justify-center p-2 sm:p-4 rounded-[7px] ${mood.bgClass}`}>                    
+                                        <p className="text-xs sm:text-base lg:text-lg font-semibold text-gray-800 mb-1 sm:mb-2 text-center">
+                                            <span className="block sm:inline">{mood.icon}</span> 
+                                            <span className="text-xs sm:text-sm md:text-base">{mood.label}</span>
+                                        </p>
+                                        <div className="flex justify-center items-center py-1 sm:py-2">
+                                            <div className="w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24">
+                                                <DonutChart
+                                                    value={parseFloat(mood.percentage)} 
+                                                    color={mood.color}
+                                                    size={chartSize}
+                                                    strokeWidth={chartSize / 10}
+                                                />
+                                            </div>
                                         </div>
+                                        <p className={`${mood.color} text-sm sm:text-base font-semibold mt-1`}>
+                                            {mood.percentage}%
+                                        </p>
                                     </CardContent>
                                 </Card>
                             ))}
                         </div>              
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            <Card className="col-span-1 shadow-lg h-[700px] overflow-hidden">
-                                <CardContent className="p-6 h-full flex flex-col">                      
-                                    <h2 className="text-xl font-semibold mb-4">Current Students</h2>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-5 flex-1">
+                            <Card className="col-span-1 shadow-lg overflow-hidden h-[60vh] sm:h-[65vh]">
+                                <CardContent className="p-3 sm:p-6 h-full flex flex-col">                      
+                                    <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Current Students</h2>
                                     <ScrollArea className="flex-1">
-                                        <div className="space-y-4 pr-4">
+                                        <div className="space-y-2 sm:space-y-4 pr-2 sm:pr-4">
                                             {currentStudents.map((student, index) => (
-                                                <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                                                    <Avatar>
-                                                        <AvatarImage src={`/api/placeholder/32/32`} />
-                                                        <AvatarFallback>{student.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                                    </Avatar>
-                                                    <div className="flex-1">
-                                                        <p className="font-medium">{student.name}</p>
-                                                        <p className="text-sm text-gray-500">ID: {student.id}</p>
-                                                        <p className="text-sm text-gray-500">{student.course}</p>
-                                                    </div>
-                                                </div>
+                                                <Card key={index} className="shadow-sm">
+                                                    <CardContent className="p-2 sm:p-4">
+                                                        <div className="flex items-center space-x-2 sm:space-x-4 p-2 sm:p-3 rounded-lg">
+                                                            <Avatar>
+                                                                <AvatarImage src={`/api/placeholder/32/32`} />
+                                                                <AvatarFallback>{student.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                                            </Avatar>
+                                                            <div className="flex-1 min-w-0">
+                                                                <p className="font-medium text-sm sm:text-base truncate">{student.name}</p>
+                                                                <p className="text-xs sm:text-sm text-gray-500 truncate">ID: {student.id}</p>
+                                                                <p className="text-xs sm:text-sm text-gray-500 truncate">{student.course}</p>
+                                                            </div>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             ))}
                                         </div>
                                     </ScrollArea>
                                 </CardContent>
                             </Card>
-                            <Card className="col-span-1 shadow-lg h-[700px] overflow-hidden">
-                                <CardContent className="p-6 h-full flex flex-col">
-                                    <h2 className="text-xl font-semibold mb-4">Top 10 Classes with Positive Expression</h2>
+                            <Card className="col-span-1 shadow-lg overflow-hidden h-[60vh] sm:h-[65vh]">
+                                <CardContent className="p-3 sm:p-6 h-full flex flex-col">
+                                    <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Top 10 Classes with Positive Expression</h2>
                                     <ScrollArea className="flex-1">
-                                        <div className="space-y-4 pr-4">
+                                        <div className="grid grid-cols-1 gap-2 sm:gap-4 pr-2 sm:pr-4">
                                             {positiveClasses.map((class_, index) => (
-                                                <div key={index} className="p-4 bg-gray-50 rounded-lg">
-                                                    <div className="flex justify-between items-center mb-2">
-                                                        <h3 className="font-medium">{class_.name}</h3>
-                                                        <span className="text-green-600 font-medium">{class_.happiness}%</span>
-                                                    </div>
-                                                    <Progress 
-                                                        value={parseFloat(class_.happiness)} 
-                                                        className="h-2 w-full bg-green-100"
-                                                    />
-                                                    <p className="text-sm text-gray-500 mt-2">{class_.students} students</p>
-                                                </div>
+                                                <Card key={index} className="shadow-sm">
+                                                    <CardContent className="p-2 sm:p-4">
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="flex-1 min-w-0 mr-2">
+                                                                <h3 className="font-medium text-sm sm:text-base truncate">{class_.name}</h3>
+                                                                <p className="text-xs sm:text-sm text-gray-500 mt-1 truncate">{class_.students} students</p>
+                                                            </div>
+                                                            <div className="flex flex-col items-center">
+                                                                <span className="text-green-600 font-medium text-base sm:text-lg whitespace-nowrap">
+                                                                    {class_.happiness}%
+                                                                </span>
+                                                                <h1 className="text-xs sm:text-sm text-gray-500 mt-1">Happy</h1>
+                                                            </div>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
                                             ))}
                                         </div>
                                     </ScrollArea>

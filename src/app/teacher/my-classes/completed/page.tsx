@@ -3,6 +3,7 @@ import { AppSidebarTeacher } from "@/app//components/app-sidebar-teacher"
 import {
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -58,14 +59,6 @@ export default function Page() {
               alt={subject.title}
               className="w-full h-48 rounded-2xl object-cover"
             /> 
-            <button 
-              onClick={() => router.push(`/teachers/${subject.teacherId}`)}
-              className={`absolute top-3 right-3 ${
-                subject.status === 'ongoing' ? 'bg-white' : 'bg-gray-500'
-              } text-black font-bold px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-100 transition-colors`}
-            >
-              Join
-            </button>
           </div>
           
           <div className="p-4">
@@ -112,11 +105,11 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbPage>My Classes</BreadcrumbPage>
+                  <BreadcrumbLink href='/teacher'>My Classes</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Completed</BreadcrumbPage>
+                  <BreadcrumbLink href='/teacher/my-classes/completed'>Completed</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

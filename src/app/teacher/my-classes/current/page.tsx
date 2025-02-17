@@ -4,6 +4,7 @@ import { AppSidebarTeacher } from "@/app/components/app-sidebar-teacher"
 import {
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -357,11 +358,11 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbPage>My Classes</BreadcrumbPage>
+                  <BreadcrumbLink href='/teacher'>My Classes</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Current</BreadcrumbPage>
+                  <BreadcrumbLink href='/teacher/my-classes/current'>Current</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
