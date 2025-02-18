@@ -5,7 +5,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Clock } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export default function Page() {
   const subjects = [
@@ -54,7 +54,7 @@ export default function Page() {
       <Card className="hover:shadow-lg transition-shadow">
         <CardContent className="p-0">
           <div className="relative">
-            <img 
+            <Image 
               src={subject.image}
               alt={subject.title}
               className="w-full h-48 rounded-2xl object-cover"
@@ -70,7 +70,7 @@ export default function Page() {
               {subject.time}
             </div>
             <div className="flex items-center mt-3">
-              <img 
+              <Image 
                 src={subject.instructorimage}
                 alt={subject.instructor}
                 className="w-8 h-8 rounded-full mr-2"

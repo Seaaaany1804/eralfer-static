@@ -17,27 +17,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Clock, Plus, X } from "lucide-react"
+import { Clock } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command"
 
 interface Subject {
   id: number;
@@ -102,17 +85,6 @@ const SubjectCard = ({ subject }: { subject: Subject }) => {
 };
 
 export default function Page() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
-    title: "",
-    code: "",
-    time: "",
-    image: ""
-  });
-
   // Sample students data - replace with your actual data
 
   const subjects: Subject[] = [

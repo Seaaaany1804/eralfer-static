@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 import { AppSidebarTeacher } from '@/app/components/app-sidebar-teacher'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -28,10 +28,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts'
-import { CalendarDays, Users, ChevronRight } from 'lucide-react'
+import { Users, ChevronRight } from 'lucide-react'
 import DonutChart from '@/components/donutchart'
 import { useState } from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"

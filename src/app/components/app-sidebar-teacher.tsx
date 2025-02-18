@@ -56,7 +56,7 @@ export function AppSidebarTeacher({ ...props }: React.ComponentProps<typeof Side
 
   const handleProfileClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    router.push('teacher/TeacherProfile');
+    router.push('teacher/profile');
   };
 
   return (
