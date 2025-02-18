@@ -1,4 +1,7 @@
-import * as faceapi from "face-api.js";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
+
 import { useRef, useEffect, useState } from "react";
 
 interface FacialExpressionRecognitionProps {
@@ -12,16 +15,19 @@ const FacialExpressionRecognition: React.FC<FacialExpressionRecognitionProps> = 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [, setExpressions] = useState<{ [key: string]: number } | null>(null);
+  const [faceapi, setFaceapi] = useState<any>(null);
 
-  const MODEL_URL = "/face-api-models";
+  const MODEL_URL = "/models";
 
   // Load FaceAPI Models
   useEffect(() => {
     const loadModels = async () => {
       try {
-        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-        await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-        await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
+        const faceAPI = await import('face-api.js');
+        setFaceapi(faceAPI);
+        await faceAPI.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+        await faceAPI.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+        await faceAPI.nets.faceExpressionNet.loadFromUri(MODEL_URL);
         console.log("Models loaded!");
         setIsModelLoaded(true);
       } catch (err) {

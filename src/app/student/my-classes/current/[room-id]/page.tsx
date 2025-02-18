@@ -4,9 +4,15 @@ import { AppSidebarStudent } from "@/app/components/app-sidebar-student";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bell, Book } from "lucide-react";
 import { useEffect, useState } from "react";
-import FacialExpressionRecognition from "@/app/components/face-expression-recognition";
+import dynamic from 'next/dynamic'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@radix-ui/react-separator";
+
+// Dynamically import the FaceExpressionRecognition component with no SSR
+const FaceExpressionRecognition = dynamic(
+  () => import('@/app/components/face-expression-recognition'),
+  { ssr: false } // This ensures the component only loads on client side
+);
 
 export default function Page() {
     // Set initial moods state
@@ -124,7 +130,7 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                 <Card className="col-span-1 shadow-lg">
                   <CardContent className="flex items-center justify-center p-2 min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[570px]">
-                    <FacialExpressionRecognition onExpressionsDetected={handleExpressionsDetected} />                      
+                    <FaceExpressionRecognition onExpressionsDetected={handleExpressionsDetected} />                      
                   </CardContent>
                 </Card>
                 

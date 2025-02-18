@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
-import { handleApiError } from "@/app/utils/errorHandler";
 import { UserService } from "@/services/userService";
 
 // 📌 GET: Fetch a single user by ID
@@ -18,6 +18,6 @@ export async function GET(
     return NextResponse.json(user, { status: 200 });
 
   } catch (error) {
-    return handleApiError({ error: "Error fetching user by ID: " + error });    
+    return Response.json({ error: 'Invalid user ID' }, { status: 400 });
   }
 }
