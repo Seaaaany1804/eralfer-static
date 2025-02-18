@@ -1,3 +1,9 @@
+import { NextResponse } from 'next/server'
+
+export async function GET() {
+  return NextResponse.json({ message: "Placeholder route" }, { status: 200 })
+}
+
 // import { NextRequest, NextResponse } from "next/server";
 // import { handleApiError } from "@/app/utils/errorHandler";
 // import { UserService } from "@/services/userService";
