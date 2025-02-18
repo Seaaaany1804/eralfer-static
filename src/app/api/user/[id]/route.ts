@@ -3,9 +3,14 @@ import { handleApiError } from "@/app/utils/errorHandler";
 import { UserService } from "@/services/userService";
 
 // 📌 GET: Fetch a single user by ID
-export async function GET(req: NextRequest, { params }: { params: { id: number } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const userId = params.id;
+    const userId = parseInt(params.id, 10);
+
+    if (isNaN(userId)) {
+      return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+    }
+
     // Fetch user from DB
     const user = await UserService.getUserById(userId);
     
