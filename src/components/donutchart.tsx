@@ -1,7 +1,14 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 
-const DonutChart = ({ value, color, size = 80, strokeWidth = 8 }) => {
+interface DonutChartProps {
+  value: number;
+  color: string;
+  size?: number;
+  strokeWidth?: number;
+}
+
+const DonutChart: React.FC<DonutChartProps> = ({ value, color, size = 80, strokeWidth = 8 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (value / 100) * circumference;

@@ -9,7 +9,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DonutChart from '@/components/donutchart';
 
-export default function Page({  }: { params: { roomId: string } }) {
+export default function Page() {
     const [moods] = useState([
         { icon: "😲", percentage: "25.00", label: "Surprised", bgClass: "bg-gray-100/50", color: "text-orange-500" },
         { icon: "😊", percentage: "15.00", label: "Happy", bgClass: "bg-gray-100/50", color: "text-green-500" },
