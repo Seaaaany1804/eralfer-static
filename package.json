@@ -31,6 +31,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
     "date-fns": "^3.6.0",
+    "encoding": "^0.1.13",
     "face-api.js": "^0.22.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.475.0",
