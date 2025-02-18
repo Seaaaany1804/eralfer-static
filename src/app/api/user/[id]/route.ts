@@ -1,11 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { handleApiError } from "@/app/utils/errorHandler";
 import { UserService } from "@/services/userService";
 
 // 📌 GET: Fetch a single user by ID
-export async function GET(req: NextRequest, { params }: { params: { id: number } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const userId = params.id;
+    const userId = parseInt(params.id);
     // Fetch user from DB
     const user = await UserService.getUserById(userId);
     
